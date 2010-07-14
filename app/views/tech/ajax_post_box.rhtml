@@ -1,0 +1,33 @@
+<% form_for :ticket,  :url => { :controller => "tech", :action => "save_post" } do |f| %>
+  <table width="100%">
+   <tr>
+    <td>
+<% @statuses = Ticketstatus.find(:all) %>
+<% @this_ticket = Ticket.find(params[:id], :limit => 1) %> 
+          <select name="ticket[ticketstatus_id]">
+    <% for @status in @statuses %>
+           <option value="<%= @status.id %>"<% if @status.id == @this_ticket.ticketstatus_id %><%= "SELECTED" %><% end %>  ><%= @status.name %></option>
+    <% end %>
+	  </select>
+     Select Post Type:
+     <select name="ticket[post_type]">
+      <option value="tech-reply" SELECTED>tech-reply</option>
+      <option value="tech-comment">tech-comment</option>
+     </select>
+          <input type="hidden" value="<%= params[:id] %>" name="ticket[ticket_id]">
+     </td>
+    </tr>
+   <tr>
+   <tr>
+    <td>
+     <%= f.text_field :text_content, :style => "width:100%;height:100px;"  %>
+    </td>
+   </tr>
+   <tr>
+    <td >
+     <%= submit_tag "Update Ticket" , :class => "main_submit", :style => "width:100%" %>
+    </td>
+   </tr>
+
+  </table>
+<% end %>

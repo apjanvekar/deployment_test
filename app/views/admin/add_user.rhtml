@@ -1,0 +1,29 @@
+<div class="form_box">
+
+<h1>Add a New User</h1>
+
+<% form_for :user,  :url => { :action => "create_new_user" } do |f| %>
+ <table width="100%">
+     <tr>
+      <td>User Type</td>
+      <td>
+       <select name="user[type_id]">
+        <option value="1"  SELECTED>Select A User Type</option>
+        <option value="1">User</option>
+        <option value="2">Tech</option>
+        <option value="0">Admin</option>
+       </select>
+      </td>
+     </tr>
+     <tr><td>Email Address</td><td> <%= f.text_field :email  %></td></tr>
+     <tr><td>First Name</td><td> <%= f.text_field :first_name  %></td></tr>
+     <tr><td>Last Name</td><td> <%= f.text_field :last_name  %></td></tr>
+     <tr><td>Phone Number</td><td> <%= f.text_field :phone_number  %></td></tr>
+     <tr><td>Password</td><td> <%= f.password_field :password %></td></tr>
+     <tr><td>Confirm Password</td><td> <%= f.password_field :password_confirmation %></td></tr>
+     <tr><td colspan=2><%= submit_tag "Create New Account!" , :style => "width:100%" , :class=> "main_submit" %></td></tr>
+ </table>
+<% end %>
+
+
+</div>

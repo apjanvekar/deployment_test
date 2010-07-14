@@ -1,0 +1,15 @@
+<div class="form_box">
+
+ <%= @msg %> 
+ <h2>Log In to the Tech Panel</h2><br>
+   <% form_for :user,  :url => { :action => "login" } do |f| %>
+ <table>
+     <tr><td>Email Address</td><td> <%= f.text_field :email  %></td></tr>
+     <tr><td>Password</td><td> <%= f.password_field :password %></td></tr>
+     <tr><td colspan=2><%= submit_tag "Log In" , :style => "width:100%", :class=> "main_submit"	 %></td></tr>
+ </table>
+   <% end %>
+</div>
+<br><br>
+
+</div>

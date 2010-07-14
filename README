@@ -1,0 +1,76 @@
+Hi! Welcome to the Readme for the Mystic Ticket System.
+-- Last Updated: 11/17/07
+
+Features
+	- Mystic is a ruby on rails ticket system, that's designed to be fast,
+	  flexible, and customizable. Tickets are used for several purposes, from 
+          project management, customer help/troubleshooting, and much more.
+          Here are some of the highlights of this application: 
+		1. User/Tech/Admin login system
+		2. Custom ticket category and status editing.
+		3. Different Themes available.
+
+Installing
+	- Please read INSTALL 
+Using
+	- There are 3 example accounts that come along with mystic when you
+	  first install. There is one regular user, one tech(what an employee
+	  or similar would be, that replies to user tickets), and one admin(who
+	  is the one who managers users/techs/admins, etc. Here is where and how
+	  you can log in as these users:
+		* Let's assume you have mystic installed at: http://mystic.domain.com
+	
+	  You can log in as a regular user at:
+		http://mystic.domain.com or http://mystic.domain.com/user/
+                     - Username: user@test.com 
+                     - Password: test 
+
+	  You can log in as a tech at:
+		http://mystic.domain.com/tech/
+                     - Username: tech@test.com 
+                     - Password: test 
+
+	  You can log in as an admin at:
+		http://mystic.domain.com/admin/
+                     - Username: admin@test.com 
+                     - Password: test 
+
+	- Having logged in, here are some guidelines/faqs: 
+                - All tickets that are marked as resolved disappear from the
+                  tech & admin area. The ticket created by the particular user
+                  will always be seen in the user area. 
+
+                - What happens if a user tries to log into a tech/admin area?
+                  There is an automatic check that locks a tech/admin/user into
+                  their own area. An admin can't log in as a user or vice versa.
+ 
+Rake Tasks
+	- Run rake --tasks to see all of the rake tasks. They all start with "mystic:",
+	  and they're super useful! here are some examples:
+		- mystic:fill_with_sample_data : automatically fills the database with 
+		  5000 users,  10000 tickets, 50000 posts, wow! This is for testing
+		  mystic with a huge database filled with tickets and users and what
+		  not. We use this for performance testing so we can tune mystic to 
+		  super-high load enterprise environments. Be sure to get rid of all 
+ 		  this sample data before lauching your ticket system!
+
+		- mystic:clean_logs : this task automatically cleans out any logs
+		  that are 6 months or older. Logs can build up pretty quickly, and 
+		  this is a good way to clean them out. We reccommend that you set 
+		  this rake task up as a cron job. 
+
+Enjoy Mystic! Visit our site: http://www.hulihanapplications.com to let us know
+about anything you're curious about or if you see any bugs/problems! We're constantly 
+trying to update Mystic to make it the best open source ticketing system ever. We can't 
+do that if we don't know what everyone wants, so if you see a feature you'd like, let
+us know, that's what we're here for!
+
+Thanks! 
+                
+
+
+
+
+
+
+	

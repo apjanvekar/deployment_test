@@ -1,0 +1,54 @@
+<script type="text/javascript">
+function hide_user_box(id)
+{
+box = 'user_box_'+id
+//alert(box);
+document.getElementById(box).innerHTML="";
+}
+</script>
+
+<div class="form_box">
+
+<h1>Edit/Delete Ticket Statuses</h1><br>
+<table style="width:100%;border-collapse:collapse;">
+<tr style="font-weight:bold">
+ <td style="width:25px">id</td>
+ <td style="width:200px">Name</td>
+ <td style="width:20px"></td> 
+</tr>
+<% @counter = 0 %>
+<% for @status in @statuses %> 
+ <tr class="ticket_col<%= @counter % 2 %>"> 
+  <td><%= @status.id %></td>
+  <td><%= @status.name %></td>
+  <td align=left>
+
+   <%= 
+      link_to image_tag('icon_destroy.png', :border => "none", :title => "Destroy #{@status.name}" ) ,
+      {:action => "edit_ticket_statuses_destroy", :controller => "admin", :id => @status.id}, 
+      :confirm => "Are you sure you want to destroy #{@status.name}?\nAny existing tickets that have this status will now be listed as unknown!"
+   %> 
+  </td>
+ </tr>  
+ <tr>
+  <td id="user_box_<%= @status.id %>" colspan=10 ></td>
+ </tr>
+ <% @counter = @counter + 1 %> 
+<% end %> 
+</table>
+
+</div>
+
+<br>
+
+<div class="form_box">
+<h1>Add a New Status</h1>
+<% @status = Ticketstatus.new %> 
+<% form_for :status, :url => { :action => "create_new_status" } do |f| %>
+ <table width="100%">
+     <tr><td>ID</td><td> <%= f.text_field :id %></td></tr>
+     <tr><td>Name</td><td> <%= f.text_field :name %></td></tr>
+     <tr><td colspan=2><%= submit_tag "Create New Status!" , :style => "width:100%" , :class=> "main_submit" %></td></tr>
+ </table>
+<% end %>
+</div>

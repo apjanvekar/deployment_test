@@ -1,0 +1,20 @@
+<br>
+<div class="expand_ticket_box">
+
+<div align=center class="edit_user">
+<% @user = User.find(params[:id]) %> 
+<h3>Edit <%= @user.email %></h3>
+<% form_for :user,  :url => { :action => "edit_user_update" } do |f| %>
+  <table  style="width:100%;text-align:center">
+   <tr><td >Email</td><td ><%= f.text_field :email %></td></tr>
+   <tr><td >First Name</td><td><%= f.text_field :first_name %></td></tr>   
+   <tr><td >Last Name</td><td><%= f.text_field :last_name %></td></tr>
+   <tr><td>Phone Number</td><td><%= f.text_field :phone_number %></td></tr>
+   <tr><td colspan=2><%= submit_tag "Save", :class => "main_submit", :style => "width:100%"  %></td></tr>
+  </table>
+<input type="hidden" name="user_id" value="<%= params[:id] %>">
+<% end %>
+<span style="cursor: pointer;" onclick="hide_user_box(<%= params[:id]  %>)">[Hide]</span>
+</div>
+
+</div>

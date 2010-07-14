@@ -1,0 +1,6 @@
+<script type="text/javascript">
+var inner = "<a href=\"#\" onclick=\"new Ajax.Updater('expand_ticket_<%= params[:id] %>','/tech/expand_ticket/<%= params[:id] %>', {asynchronous:true, evalScripts:true}); return false;\"><img alt=\"Icon_expand\" border=\"none\" src=\"/images/icon_expand.png?1191590743\" title=\"Expand Ticket\" /></a>";
+document.getElementById("expand_click_box<%= params[:id] %>").innerHTML=inner
+//document.getElementById("expand_click_box<%= params[:id] %>").innerHTML='[-]'
+</script>
+

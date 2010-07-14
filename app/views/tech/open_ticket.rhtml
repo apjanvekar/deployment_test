@@ -1,0 +1,20 @@
+<div class="form_box">
+ <h2>Open A Ticket</h2>
+ <% form_for :ticket,  :url => { :action => "create_ticket" } do |f| %>
+  <table width="100%">
+   <tr><td style="width:100px">Subject</td><td><%= f.text_field :subject, :style => "width:100%;padding-right:2px"  %></td>
+    <td>
+     <select name="ticket[category_id]" style="width:100%">
+      <option value="1"  SELECTED>Select A Category</option>
+      <% for cat in @categories %> 
+       <%= "<option value=\"#{cat.id}\">#{cat.name}</option>" %>
+      <% end %>
+     </select>
+    </td>
+   </tr>
+   <tr><td valign=top>Contents</td><td colspan=2> <%= f.text_area :text_content , :rows => 10, :cols => 85 %></td></tr>
+   <tr><td colspan=3><%= submit_tag "Create Ticket" , :class => "main_submit", :style => "width:100%" %></td></tr>
+  </table>
+ <% end %>
+</div>
+

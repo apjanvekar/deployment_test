@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<%= stylesheet_link_tag "style" %>
+<%= javascript_include_tag "prototype" %>
+<title>Mystic Ticket System</title>
+<meta name="keywords" content="Mystic, ROR Ticket system, Ruby ticket, Open Source, Free, Ruby on rails ticket, Support Ticket, Trouble Ticket, Hulihan Applications">
+<meta name="description" content="Mystic, An open source trouble support ticket system for ruby on rails. It is free to use and modify, and is available to the general public. Hulihan Applications &copy; September 2007">
+</head>
+
+
+<body> 
+<table align=center style="border:0px solid black;"><tr><td> <!-- Begin Main Table -->
+
+<!-- Dave: I added the above to make sure the align is good... see the bottom too -->
+<table cellpadding=0 cellspacing=0 align=center width="100%">
+ <tr>
+  <td align=center> 
+   <div style="background:url(/images/logo.png);width:307px;height:93px;;background-repeat:no-repeat;"></div>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <div style="background:url(/images/main_table_bg_top.png);width:830px;height:38px;background-repeat:no-repeat;"></div>
+  </td>
+ </tr>
+<tr>
+ <td valign=top >
+  <div style="width:800px;padding-left:30px;background:url(/images/main_table_bg_middle.png);background-repeat:repeat-y;">
+   <!-- Begin main body div and td-->
+   <table cellpadding=0 cellspacing=0 align=center width="100%">
+    <tr>
+     <td style="width:70%" valign=top>
+
+      <% if @msg != ""  %>
+       <%= @msg %>
+      <% end %>
+      <% if flash[:message] %><%= flash[:message] %><% end %>
+      <%= yield %>
+     </td>
+     <td align=left style="width:30%;" valign=top >
+   
+<table cellpadding=0 cellspacing=0>
+<tr><td style="width:200;height:8px;background:url(/images/right_links_bg_top.png);background-repeat:no-repeat;"></td></tr>
+<tr><td style="width:200px;background:url(/images/right_links_bg.png);background-repeat:repeat-y;">
+     <div style="padding-left:35px">
+       <%= link_to "View My Tickets", {:action => "view_tickets"}, :class => "right_link" %><hr>
+       <%= link_to "Open A New Ticket", {:action => "open_ticket"}, :class => "right_link" %><hr>
+       <%= link_to "Edit My Profile", {:action => "edit_account"}, :class => "right_link" %><hr>
+	<% if !(session[:user].nil?) %>
+	  <%= link_to "Log Out", {:action =>"logout"}, :class => "right_link" %>
+        <% else %>
+	  <%= link_to "Log In/Register", {:action => "index"}, :class => "right_link" %>
+        <% end %>
+     </div>
+</td></tr>
+
+<tr> <td style="width:200px;height:27px;background:url(/images/right_links_bg_bottom.png);background-repeat:no-repeat;"></td></tr>
+</table>
+
+<table cellpadding=0 cellspacing=0>
+<tr><td style="width:200px;height:8px;background:url(/images/right_links_bg_top.png);background-repeat:no-repeat;"></td></tr>
+<tr><td style="width:200px;background:url(/images/right_links_bg.png);background-repeat:repeat-y;">
+  <div style="padding-left:35px">
+       <div class="right_link">My Status</div><hr>
+        <% if !session[:user].nil? %>
+         <div style="font-size:10px">
+	  Logged in as <%= session[:user][:email] %><br>
+	  Open Tickets: 
+          <% @open_tickets = Ticket.find(:all, :conditions => "ticketstatus_id != 2") %>
+
+	  <%= @open_tickets.size %>             
+         </div>
+        <% else %>
+         You are Not logged in.<br>
+        <% end %>
+  </div>
+</td></tr>
+<tr><td style="width:200px;height:27px;background:url(/images/right_links_bg_bottom.png);background-repeat:no-repeat;"></td></tr>
+</table>
+
+     </td>
+    </tr>
+   </table>
+   <!-- End main body div and td-->
+  </div>
+ </td>
+</tr>
+ <tr>
+  <td>
+   <div style="background:url(/images/main_table_bg_bottom.png);width:830px;height:44px;background-repeat:no-repeat;"></div> 
+  </td>
+ </tr>
+</table>
+
+</td></tr></table><!-- end main table -->
+
+<div id="bottom_box">
+ This site is best displayed in FireFox 1.5+, IE 7+, and Opera 9+
+</div>
+</body>
+
+</html>

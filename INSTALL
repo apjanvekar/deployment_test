@@ -1,0 +1,16 @@
+Hi, Thanks for downloading the Mystic Ticket System! 
+
+To install this application, please follow the following steps:
+
+1. Download it! Which I assume you've already done....
+
+2. Configure your database(s) in config/database.yml
+
+3. Run 'rake db:migrate' from the command line(typically using ssh).
+
+4. That's it! Visit your application using fastcgi/mongrel/webrick. 
+
+* Note: If you need any additional help, see the README section, 
+or contact us, post in our forum, etc. 
+
+                www.hulihanapplications.com

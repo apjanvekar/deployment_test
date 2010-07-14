@@ -1,0 +1,38 @@
+<%# The Bottom navigation arrows! %>
+
+<% if @tickets %>
+<table width="100%">
+ <tr>
+  <td align=left>
+ 
+   <% if @offset >= @increment %> 
+   <%# Print out the left arrow %>
+   <table>
+    <tr>
+     <td><img src="/images/arrow_left.png" alt="view more tickets"></td>
+     <td>
+       <%= link_to "View Tickets #{@offset.to_i - @increment.to_i} - #{@offset}", {:action => "view_tickets", :offset => (@offset.to_i - @increment.to_i), :category_id => params[:category_id], :status_id => params[:status_id]} %> 
+     </td>
+    </tr>
+   </table>
+   <% end %> 
+
+  </td>
+  <td align=right>
+
+   <% if @tickets.size >= @increment %><%# Test to see if there's more tickets on the next page
+   <%# Print out the right arrow %>
+   <table>
+    <tr>
+     <td>
+       <%= link_to "View Tickets #{@tick_limit} - #{@tick_limit.to_i + @increment.to_i}", {:action => "view_tickets", :offset => @tick_limit, :category_id => params[:category_id], :status_id => params[:status_id]} %>    
+     </td>
+     <td><img src="/images/arrow_right.png" alt="view more tickets"></td>
+    </tr>
+   </table>
+   <% end %>
+
+  </td>
+ </tr>
+</table>
+<% end %> 

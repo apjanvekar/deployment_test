@@ -1,0 +1,30 @@
+<div class="form_box">
+
+ <%= @msg %> 
+ <h2>Log In or Create a new Account</h2><br>
+   <% form_for :user,  :url => { :action => "login" } do |f| %>
+ <table >
+     <tr><td>Email Address</td><td> <%= f.text_field :email  %></td></tr>
+     <tr><td>Password</td><td> <%= f.password_field :password %></td></tr>
+     <tr><td colspan=2><%= submit_tag "Log In" , :style => "width:100%", :class=> "main_submit"	 %></td></tr>
+ </table>
+   <% end %>
+</div>
+<br><br>
+
+<div class="form_box">
+ <h2>Create An Account</h2>
+ <div style="border:0px solid black;"> 
+   <% form_for :user,  :url => { :action => "create_new_user" } do |f| %>
+ <table>
+     <tr><td>Email Address</td><td> <%= f.text_field :email  %></td></tr>
+     <tr><td>First Name</td><td> <%= f.text_field :first_name  %></td></tr>
+     <tr><td>Last Name</td><td> <%= f.text_field :last_name  %></td></tr>
+     <tr><td>Phone Number</td><td> <%= f.text_field :phone_number  %></td></tr>
+     <tr><td>Password</td><td> <%= f.password_field :password %></td></tr>
+     <tr><td>Confirm Password</td><td> <%= f.password_field :password_confirmation %></td></tr>
+     <tr><td colspan=2><%= submit_tag "Create New Account!" , :style => "width:100%" , :class=> "main_submit" %></td></tr>
+ </table>
+   <% end %>
+ </div>
+</div>

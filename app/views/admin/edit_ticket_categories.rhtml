@@ -1,0 +1,53 @@
+<script type="text/javascript">
+function hide_user_box(id)
+{
+box = 'user_box_'+id
+//alert(box);
+document.getElementById(box).innerHTML="";
+}
+</script>
+
+<div class="form_box">
+
+<h1>Edit/Delete Ticket Categories</h1><br>
+<table style="width:100%;border-collapse:collapse;">
+<tr style="font-weight:bold">
+ <td style="width:25px">id</td>
+ <td style="width:200px">Name</td>
+ <td style="width:20px"></td> 
+</tr>
+<% @counter = 0 %>
+<% for @category in @categories %> 
+ <tr class="ticket_col<%= @counter % 2 %>"> 
+  <td><%= @category.id %></td>
+  <td><%= @category.name %></td>
+  <td align=left>
+   <%= 
+      link_to image_tag('icon_destroy.png', :border => "none", :title => "Destroy #{@category.name}" ) ,
+      {:action => "edit_ticket_categories_destroy", :controller => "admin", :id => @category.id}, 
+      :confirm => "Are you sure you want to destroy #{@category.name}?\nAny tickets with this category will now be listed as unknown!"
+   %> 
+  </td>
+ </tr>  
+ <tr>
+  <td id="user_box_<%= @category.id %>" colspan=10 ></td>
+ </tr>
+ <% @counter = @counter + 1 %> 
+<% end %> 
+</table>
+
+</div>
+
+<br>
+
+<div class="form_box">
+<h1>Add a New Category</h1>
+<% @category = Category.new %> 
+<% form_for :category, :url => { :action => "create_new_category" } do |f| %>
+ <table width="100%">
+     <tr><td>ID</td><td> <%= f.text_field :id %></td></tr>
+     <tr><td>Name</td><td> <%= f.text_field :name %></td></tr>
+     <tr><td colspan=2><%= submit_tag "Create New Category!" , :style => "width:100%" , :class=> "main_submit" %></td></tr>
+ </table>
+<% end %>
+</div>

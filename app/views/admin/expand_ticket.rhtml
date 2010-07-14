@@ -1,0 +1,100 @@
+<div class="expand_ticket_box">
+<table width="100%">
+<tr><td>
+<% @ticket = Ticket.find(params[:id]) %>
+<% @ticket_texts = Tickettext.find(:all, :conditions => [ "ticket_id = ?", params[:id]] ) %> 
+Subject: <b><%= @ticket.subject %></b><br>
+<%= "Total Posts: #{@ticket_texts.size} <br>" %>
+<% for @text in @ticket_texts %> 
+
+ <% #@print << "#{@text.inspect}<br><br>"#for debugging... %>
+ <% #Print out the post----------------------- %>
+ <% if (@text.post_type == "user-post") %>
+  <div class="post_box_user_post">
+ <% end %>
+ <% if (@text.post_type == "tech-reply") %>
+  <div class="post_box_tech_reply">
+ <% end %>
+ <% if (@text.post_type == "tech-comment") %>
+  <div class="post_box_tech_comment">
+ <% end %>
+ <% if (@text.post_type == "admin-reply") %>
+  <div class="post_box_admin_reply">
+ <% end %>
+
+ <%# Grab the user info of the user %>
+  <% @post_user = User.find(@text.user_id) %>
+  <div class="post_box_title">
+   <table width="100%"><tr> 
+  <td >From: <b><%= "#{@post_user.email}" %></b>&nbsp;&nbsp;-&nbsp;&nbsp;<%= "#{@post_user.first_name} #{@post_user.last_name}" %></td><td align=right><font color="#5F5F5F"><%= "#{@text.created_at.strftime("%A %d %B %Y - %H:%M %p")}" %></font></td>
+   </tr></table> 
+  </div>
+  <div style="font-size:10px;padding:2px;"> 
+   <%= h "#{@text.text_content}" %>
+  </div>
+ </div><% #close post div %>
+<% end %>
+</td></tr></table>
+<script type="text/javascript">
+var inner = "<a href=\"#\" onclick=\"new Ajax.Updater('expand_ticket_<%= params[:id] %>', '/admin/collapse_ticket/<%= params[:id] %>', {asynchronous:true, evalScripts:true}); return false;\"><img alt=\"Icon_expand\" border=\"none\" src=\"/images/icon_collapse.png?1191590743\" title=\"Collapse Ticket\" /></a>";
+document.getElementById("expand_click_box<%= params[:id] %>").innerHTML=inner
+//document.getElementById("expand_click_box<%= params[:id] %>").innerHTML='[-]'
+</script>
+<br>
+
+<div class="expand_ticket_options_title">&nbsp;Ticket Options</div>
+<div class="expand_ticket_options_box">
+
+
+<table width="100%">
+ <tr>
+  <td align=left id="post_box_<%= params[:id] %>">
+
+
+   <table >
+    <tr>
+     <td>
+      <%=link_to_remote "Add to this Ticket", :update => "post_box_#{params[:id]}", :url => { :action => "ajax_post_box", :id => params[:id] } %> 
+     </td>
+     <td>
+      &nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp; Change status to:
+     </td>
+     <td align=left>
+      <table>
+       <tr>
+        <td align=left width="100%">
+
+         <% form_for :ticket,  :url => { :action => "update_ticket_status" } do |f| %>
+          <% @statuses = Ticketstatus.find(:all) %>
+          <% @this_ticket = Ticket.find(params[:id], :limit => 1) %>
+          <select name="ticket[ticketstatus_id]">
+          <% for @status in @statuses %>
+           <option value="<%= @status.id %>"<% if @status.id == @this_ticket.ticketstatus_id %><%= "SELECTED" %><% end %>  >
+            <%= @status.name %>
+           </option>
+          <% end %>
+          </select>
+          <input type="hidden" value="<%= params[:id] %>" name="ticket[ticket_id]">
+          <%= submit_tag "Update Ticket" , :class => "main_submit" %>
+         <% end %>
+        </td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+    <tr>
+     <td>
+      <%#link_to_remote "Add Comment", :update => "post_box_#{params[:id]}", :url => { :action => "ajax_comment_box", :id => params[:id] } %>   
+     </td>
+    </tr>
+   </table>
+
+
+  </td>
+ </tr>
+</table>
+</div>
+<br>
+
+	
+</div>

@@ -1,0 +1,65 @@
+<h2>View Logs for <%= @user.email %></h2><br>
+
+<% @logs = Ticketlog.find(:all, :conditions => ["user_id = ? and created_at > ?", @user.id, 1.month.ago ], :limit => 100  ) %> 
+<h3>Logs for the last 30 days (<%= @logs.size %>)</h3><br>
+<table width="100%" cellpadding=0 cellspacing=0>
+ <tr>
+  <td><b>Time</b></td>
+  <td><b>Ticket</b></td>
+  <td><b>What Happened</b></td>
+ </tr>
+<% for log in @logs %>
+  <tr class="<%= cycle("ticket_col0", "ticket_col1") %>" style="border:0px solid black">
+   <td style="width:80px"><%= log.created_at.strftime("%m/%d/%y %H:%M %p") %> </td>
+   <td style="width:100px"><%= "<b>(#{log.ticket.id})</b> #{truncate(log.ticket.subject, 20)}" %> </td>
+   <td style="width:200px;font-size:10px"><%= truncate(log.log, 80) %></td>   
+  </tr>
+<% end %>
+</table>
+
+<br>
+<h3>Log Summary</h3><br>
+<table  cellpadding=0 cellspacing=0>
+ <tr>
+  <td style="width:100px"><b>Time</b></td>
+  <td style="width:20px"><!-- spacer --></td>
+  <td style="width:100px"><b>Posts</b></td>
+  <td style="width:100px"><b>Created Tickets</b></td>
+ </tr>
+
+  <tr class="<%= cycle("ticket_col0", "ticket_col1") %>" style="border:0px solid black">
+   <% user_id = @user.id %>
+   <% @time  = Time.now.at_midnight %>
+   <td>Today</td>
+   <td></td</td>
+   <% @log_num = Ticketlog.count(:all, :conditions => ["user_id = ? and log_type = ? and created_at > ?", user_id , "save_post", @time] ) %>
+   <td><%= @log_num %></td>   
+   <% @log_num = Ticketlog.count(:all, :conditions => ["user_id = ? and log_type = ? and created_at > ?", user_id  , "create_ticket", @time] ) %>
+   <td><%= @log_num %></td>   
+  </tr>
+
+  <tr class="<%= cycle("ticket_col0", "ticket_col1") %>" style="border:0px solid black">
+   <% user_id = @user.id %>
+   <% @time  = Time.now.beginning_of_week %>
+   <td>This Week</td>
+   <td></td</td>
+   <% @log_num = Ticketlog.count(:all, :conditions => ["user_id = ? and log_type = ? and created_at > ?", user_id , "save_post", @time] ) %>
+   <td><%= @log_num %></td>   
+   <% @log_num = Ticketlog.count(:all, :conditions => ["user_id = ? and log_type = ? and created_at > ?", user_id  , "create_ticket", @time] ) %>
+   <td><%= @log_num %></td>   
+  </tr>
+
+  <tr class="<%= cycle("ticket_col0", "ticket_col1") %>" style="border:0px solid black">
+   <% user_id = @user.id %>
+   <% @time  = Time.now.beginning_of_month %>
+   <td>This Month</td>
+   <td></td</td>
+   <% @log_num = Ticketlog.count(:all, :conditions => ["user_id = ? and log_type = ? and created_at > ?", user_id , "save_post", @time] ) %>
+   <td><%= @log_num %></td>   
+   <% @log_num = Ticketlog.count(:all, :conditions => ["user_id = ? and log_type = ? and created_at > ?", user_id  , "create_ticket", @time] ) %>
+   <td><%= @log_num %></td>   
+  </tr>
+
+</table>
+
+<br><br><%= link_to "<< Go Back", :action => "view_logs" %> 

@@ -1,0 +1,97 @@
+<script type="text/javascript">
+</script>
+<h2>View User Tickets</h2><br>
+
+<table style="width:100%">
+ <tr>
+  <td align=left>
+   <div style="font-weight:bold">Category: <%= @category_name %><br>Status: <%= @status_name %></div>
+   Viewing <%= @tickets.size %> tickets
+  </td>
+  <td align=right>
+   <form action="view_tickets" method="post" name="catchange">
+    <select name="category_id">
+     <option value="none" SELECTED>View Category</option>
+     <option value="none">All</option>
+     <%=  options_from_collection_for_select(@categories, "id", "name" ) %>
+    </select>
+    <select name="status_id">
+     <option value="none" SELECTED>View Status</option>
+     <option value="none">All</option>
+     <%=  options_from_collection_for_select(@statuses, "id", "name" ) %>     
+    </select>
+    <input type="submit" value="Filter" class = "main_submit"> 
+   </form>
+  </td>
+ </tr>
+</table>
+
+
+
+
+<table width="100%" cellpadding=0 cellspacing=0>
+ <tr><td><b>#</b></td><td><b>Subject</b></td><td><b>Category</b></td><td><b>Status</b></td><td><b>Date Created</b></td><td></td></tr>
+ <% @counter = 0 %>
+ <% for ticket in @tickets  %>
+  <tr class="<%= cycle("ticket_col0", "ticket_col1") %>" style="border:0px solid black">
+   <td style="width:50px"><%= ticket.id %></td>
+   <td style="width:230px">
+    <% if ticket.subject.size > 38 %>
+     <%= "#{ticket.subject[0,35]}..." %>
+    <% else %>
+     <%= ticket.subject[0,38] %>
+    <% end %>    
+   </td>
+
+
+   <td style="width:90px">
+     <% if !ticket.category.nil? %>
+      <%= ticket.category.name %>
+     <% else %>
+      <div style="font-size:9px"><%= "<i>Unknown ID: #{ticket.category_id}</i>" %></div>
+     <% end %>
+   </td>
+   <td style="width:100px">
+    <% if !ticket.ticketstatus.nil? %>
+     <%= ticket.ticketstatus.name %>
+    <% else %>
+     <div style="font-size:9px"><%= "<i>Unknown ID: #{ticket.ticketstatus_id}</i>" %></div>
+    <% end %>
+   </td>
+
+
+
+
+   <td style="width:100px"><div style="font-size:10px;"><%= "#{ticket.created_at.strftime("%m/%d/%y %H:%M %p")}" %></div></td>
+   <td style="width:20px" align=right  id="expand_click_box<%= ticket.id %>">
+    <%= 
+     link_to_remote image_tag('icon_expand.png', :border => "none", :title => "Expand Ticket" ),
+     :update => "expand_ticket_#{ticket.id}", 
+     :url => { :controller => "tech", :action => "expand_ticket", :id => ticket.id } , 
+     :border => "0"
+     #:complete => visual_effect(:highlight, "expand_ticket_#{ticket.id}", :duration => 10.0) 
+    %>
+   </td>
+  </tr>
+  <tr>
+   <td colspan=5><div id="expand_ticket_<%= ticket.id %>"></div>
+ </td>
+  </tr>
+  <% @counter = @counter + 1 %>
+ <% end %> 
+</table>
+
+<%= render :partial => "tickets_paginator" %>
+
+<h2>Look up ticket by id:</h2>
+<% form_for :ticket,  :url => { :controller => "tech", :action => "lookup_ticket" } do |f| %>
+  <table >
+   <tr>
+    <td>ID:</td>
+    <td> <%= f.text_field :id %></td>
+    <td><%= submit_tag "Find" , :class=> "main_submit"  %></td>
+   </tr>
+  </table>
+<% end %>
+
+

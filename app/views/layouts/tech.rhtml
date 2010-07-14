@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<%= stylesheet_link_tag "style" %>
+<%= javascript_include_tag "prototype" %>
+<title>Mystic Ticket System - Tech Panel</title>
+<meta name="keywords" content="Mystic, ROR Ticket system, Ruby ticket, Open Source, Free, Ruby on rails ticket, Support Ticket, Trouble Ticket, Hulihan Applications">
+<meta name="description" content="Mystic, An open source trouble support ticket system for ruby on rails. It is free to use and modify, and is available to the general public. Hulihan Applications &copy; September 2007">
+</head>
+
+
+<body> 
+<table align=center style="border:0px solid black;"><tr><td> <!-- Begin Main Table -->
+
+<!-- Dave: I added the above to make sure the align is good... see the bottom too -->
+<table cellpadding=0 cellspacing=0 align=center width="100%">
+ <tr>
+  <td align=left> 
+   <div class="main_logo_tech"></div>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <div class="main_table_top"></div>
+  </td>
+ </tr>
+<tr>
+ <td valign=top>
+  <div class="main_table_middle">
+   <!-- Begin main body div and td-->
+   <table cellpadding=0 cellspacing=0 align=center width="100%">
+    <tr>
+     <td style="width:70%" valign=top>
+
+      <% if @msg != ""  %>
+       <%= @msg %>
+      <% end %>
+      <%= flash[:message] %>
+      <%= yield %>
+     </td>
+     <td align=left style="width:30%;" valign=top >
+   
+<table cellpadding=0 cellspacing=0>
+<tr><td class="right_links_top"></td></tr>
+<tr><td class="right_links_middle">
+     <div class="right_links_padding">
+       <%= link_to "View All Tickets", {:action => "view_tickets"}, :class => "right_link_text" %><hr>
+       <% if !session[:user].nil? && session[:user][:type_id] == 2 %>
+<b>Categories</b><br>
+        <% @categories = Category.find(:all, :limit => 100) %>
+        <% for @category in @categories %>
+         <%= link_to "&nbsp;-&nbsp;#{@category.name}", {:action => "view_tickets", :category_id => @category.id } %>
+          <%# Print the number of open tickets per category! %> 
+          <% @open_ticks = Ticket.count(:all, :conditions => ["category_id = ? and ticketstatus_id != 2", @category.id ] ) %>
+          <%= "(#{@open_ticks})" %>
+          <hr>
+        <% end %>
+
+<b>Statuses</b><br>
+        <% @statuses = Ticketstatus.find(:all, :limit => 100) %> 
+        <% for @status in @statuses %>
+         <%= link_to "&nbsp;-&nbsp;#{@status.name}", {:action => "view_tickets", :status_id => @status.id } %>
+          <%# Print the number of open tickets per status! %> 
+          <% @open_ticks = Ticket.count(:all, :conditions => ["ticketstatus_id = ?", @status.id] ) %>
+          (<%= @open_ticks %>)
+          <hr>
+        <% end %>
+
+
+       <% end %>
+       <%= link_to "Open A New Ticket", {:action => "open_ticket"}, :class => "right_link_text" %><hr>
+       <%= link_to "Edit My Profile", {:action => "edit_account"}, :class => "right_link_text" %><hr>
+       <%= link_to "View My Logs", {:action => "view_logs"}, :class => "right_link_text" %><hr>
+	<% if !(session[:user].nil?) %>
+	  <%= link_to "Log Out", {:action =>"logout"}, :class => "right_link_text" %>
+        <% else %>
+	  <%= link_to "Log In", {:action => "index"}, :class => "right_link_text" %>
+        <% end %>
+     </div>
+</td></tr>
+
+<tr> <td class="right_links_bottom"></td></tr>
+</table>
+
+<table cellpadding=0 cellspacing=0>
+<tr><td class="right_links_top"></td></tr>
+<tr><td class="right_links_middle">
+  <div class="right_links_padding">
+       <div class="right_link_text">My Status</div><hr>
+<%# session.inspect %>
+        <% if !session[:user].nil? %>
+         <div style="font-size:10px">
+	  Logged in as <%= session[:user][:email] %><br>
+	  Open Tickets: 
+          <% @open_tickets = Ticket.find(:all, :conditions => ["ticketstatus_id != ? and user_id = ?", 2, session[:user][:id] ]) %>
+          <%= @open_tickets.size %>
+         </div>
+        <% else %>
+         You are Not logged in.<br>
+        <% end %>
+  </div>
+</td></tr>
+<tr><td class="right_links_bottom"></td></tr>
+</table>
+
+     </td>
+    </tr>
+   </table>
+   <!-- End main body div and td-->
+  </div>
+ </td>
+</tr>
+ <tr>
+  <td>
+   <div class="main_table_bottom"></div> 
+  </td>
+ </tr>
+</table>
+
+</td></tr></table><!-- end main table -->
+
+<div id="bottom_box">
+ This site is best displayed in FireFox 1.5+, IE 7+, and Opera 9+<br>
+<font color=#8F8F8F><a style="color:#8F8F8F" href="http://www.hulihanapplications.com/">Hulihan Applcations</a> &copy; 2007</font>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<script type="text/javascript">
+function hide_user_box(id)
+{
+box = 'user_box_'+id
+//alert(box);
+document.getElementById(box).innerHTML="";
+}
+</script>
+
+<h1>Edit/Delete Users</h1><br>
+<table style="width:100%;border-collapse:collapse;">
+<tr style="font-weight:bold">
+ <td style="width:25px">id</td>
+ <td style="width:200px">Email Address</td>
+ <td style="width:100px">First Name</td>
+ <td style="width:100px">Last Name</td>
+ <td style="width:20px"></td> 
+ <td style="width:20px"></td> 
+</tr>
+<% @counter = 0 %>
+<% for @user in @users %> 
+ <tr class="ticket_col<%= @counter % 2 %>"> 
+  <td><%= @user.id %></td>
+  <td><%= @user.email %></td>
+  <td><%= @user.first_name %></td>
+  <td><%= @user.last_name %></td>
+  <td align=left>
+   <%= 
+      link_to_remote image_tag('icon_edit.png', :border => "none", :title => "Edit #{@user.email}" ) ,
+      :update => "user_box_#{@user.id}",
+      :url => {:action => "ajax_edit_user", :controller => "admin", :id => @user.id},
+      :id => @user.id
+   %> 
+  </td>
+  <td align=left>
+   <%= 
+      link_to image_tag('icon_destroy.png', :border => "none", :title => "Destroy #{@user.email}" ) ,
+      {:action => "edit_users_destroy", :controller => "admin", :id => @user.id }, 
+      :confirm => "Are you sure you want to destroy #{@user.email}?" 
+   %> 
+  </td>
+ </tr>  
+ <tr>
+  <td id="user_box_<%= @user.id %>" colspan=10 ></td>
+ </tr>
+ <% @counter = @counter + 1 %> 
+<% end %> 
+</table>
+
+
+<table>
+ <tr>
+  <td>
+   <img src="/images/arrow_right.png">
+  </td>
+  <td>  
+   <%= link_to " Add a New User", {:action => "add_user"}, :class => "right_link_text" %>
+  </td>
+ </tr>
+</table>
+
